@@ -1,8 +1,8 @@
  # EXPERIMENT--06-INTERFACING-DIGITAL-SENSOR-ON-RASPBERRY-PI-DEVELOPMENT-BOARD-
-### NAME
-### ROLL NO:
-### DEPARTMENT 
-### DATE
+### NAME: KISHORE NARAYANAN S R
+### ROLL NO: 212223110025
+### DEPARTMENT: IOT
+### DATE : 24/10/2025
 
 ### AIM
 interface the DHT11 digital temperature and humidity sensor with a Raspberry Pi development board and display real-time data.
@@ -78,42 +78,31 @@ open thonny python and writhe the python script as shown below
 
 
 ### PYTHON SCRIPT 
- 
-`
-
-
+ ```
+import Adafruit_DHT
 import time
-import board
-import adafruit_dht
-import psutil
-//// first check if a libgpiod process is running. 
-for proc in psutil.process_iter():
-    if proc.name() == 'libgpiod_pulsein' or proc.name() == 'libgpiod_pulsei':
-        proc.kill()
-sensor = adafruit_dht.DHT11(board.D23)
+
+# Choose your sensor type: Adafruit_DHT.DHT11 or Adafruit_DHT.DHT22
+SENSOR = Adafruit_DHT.DHT11
+GPIO_PIN = 4   # The GPIO pin number connected to DATA pin of DHT11
+
+print("Reading temperature and humidity data from DHT sensor...")
+
 while True:
-    try:
-        temp = sensor.temperature
-        humidity = sensor.humidity
-        print("Temperature: {}*C   Humidity: {}% ".format(temp, humidity))
-    except RuntimeError as error:
-        print(error.args[0])
-        time.sleep(2.0)
-        continue
-    except Exception as error:
-        sensor.exit()
-        raise error
-    time.sleep(2.0)`
-
-
-
-
-
+    # Try to get a sensor reading
+    humidity, temperature = Adafruit_DHT.read_retry(SENSOR, GPIO_PIN)
+    
+    if humidity is not None and temperature is not None:
+        print(f"Temperature: {temperature:.1f}°C  |  Humidity: {humidity:.1f}%")
+    else:
+        print("Sensor failure. Check wiring or power.")
+    
+    time.sleep(2)  # Wait 2 seconds before the next reading
+```
 
 ## SCREENSHOT OF THE OUPT AND CIRCUIT 
 
-
-
+<img width="1920" height="1080" alt="Screenshot 2025-11-01 161418" src="https://github.com/user-attachments/assets/2b80e464-2bd5-4ba0-a3ec-ce8ef16c38c1" />
 
     
 ## RESULT:
